@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.wrapper {
+    width: 90%;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #777;
+}
+
+.about {
+    margin-bottom: 20px;
+}
+
+.about h2 {
+    font-size: 2rem;
+    color: #444;
+}
+
+.about p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.links h2 {
+    font-size: 2rem;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.link_inline {
+	display: inline-block;
+	text-decoration: none;
+	color: #007bff;
+}
+
+.ku:hover {
+	text-decoration: underline;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.fa-linkedin, .fa-blog, .fa-file-download {
+    margin-right: 8px;
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #777;
+}
