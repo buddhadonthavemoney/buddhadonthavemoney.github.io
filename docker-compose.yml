@@ -1,0 +1,8 @@
+version: '2.2'
+services:
+  web-app:
+    image: duaneleem/live-server:1.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./:/usr/src/app"
