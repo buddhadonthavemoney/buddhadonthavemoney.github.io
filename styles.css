@@ -1,154 +1,152 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --bg-color: #2e3440;
+    --text-color: #d8dee9;
+    --prompt-color: #88c0d0;
+    --accent-color: #81a1c1;
+    --terminal-header: #3b4252;
+    --cursor-color: #d8dee9;
 }
 
 body {
-    font-family: 'Open Sans', Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #2e3440;
+    margin: 0;
+    padding: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-color);
+    line-height: 1.6;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding: 10px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.wrapper {
+.terminal {
+    background-color: var(--bg-color);
     width: 100%;
-    max-width: 800px; /* Increased from 600px to 800px */
-    background: #fff;
-    padding: 30px; /* Increased padding */
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    max-width: 800px;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
 }
 
-header {
+.terminal-header {
+    background-color: var(--terminal-header);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.red { background-color: #bf616a; }
+.yellow { background-color: #ebcb8b; }
+.green { background-color: #a3be8c; }
+
+.terminal-title {
+    margin-left: 20px;
+    font-size: 14px;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.terminal-content {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.command-line {
+    margin: 20px 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.prompt {
+    color: var(--prompt-color);
+    margin-right: 10px;
+}
+
+.output {
     margin-bottom: 20px;
+    padding-left: 0;
+    color: var(--text-color);
 }
 
-header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
+h1 {
+    color: var(--accent-color);
+    margin: 0;
+    font-size: 24px;
 }
 
-header p {
-    font-size: 1.2rem;
-    color: #777;
+.subtitle {
+    color: var(--text-color);
+    margin: 5px 0 20px;
+    opacity: 0.8;
 }
 
-.about {
-    margin-bottom: 20px;
-}
-
-.about h2 {
-    font-size: 2rem;
-    color: #444;
-}
-
-.about p {
-    font-size: 1.1rem;
-    color: #666;
-}
-
-.links h2 {
-    font-size: 2rem;
-    color: #444;
-    margin-bottom: 10px;
-}
-
-ul {
-    list-style: none;
+.links {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 20px;
-    padding: 0;
 }
 
-li {
-    margin-bottom: 10px;
-}
-
-.link_inline {
-    display: inline-block;
+.links a {
+    color: var(--accent-color);
     text-decoration: none;
-    color: #007bff;
-}
-
-.link_inline:hover {
-    text-decoration: underline;
-}
-
-a {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 1.1rem;
     display: flex;
     align-items: center;
+    transition: color 0.2s;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-.fa-linkedin, .fa-blog, .fa-file-download {
-    margin-right: 8px;
+.links a:hover {
+    color: var(--accent-color);
 }
 
 footer {
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #777;
+    margin-top: 40px;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    text-align: center;
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2rem;
+/* Responsive design */
+@media (max-width: 600px) {
+    .content {
+        padding: 20px;
     }
 
-    header p {
-        font-size: 1rem;
+    h1 {
+        font-size: 2em;
     }
 
-    .about h2, .links h2 {
-        font-size: 1.5rem;
-    }
-
-    .about p {
-        font-size: 1rem;
-    }
-
-    a {
-        font-size: 1rem;
+    .links ul {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.8rem;
-    }
+.nav-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.2s;
+}
 
-    header p {
-        font-size: 0.9rem;
-    }
+.nav-link:hover {
+    opacity: 0.8;
+}
 
-    .about h2, .links h2 {
-        font-size: 1.3rem;
-    }
-
-    .about p {
-        font-size: 0.9rem;
-    }
-
-    a {
-        font-size: 0.9rem;
-    }
-
-    .wrapper {
-        padding: 20px; /* Adjusted padding for smaller screens */
-    }
+.nav-link i {
+    font-size: 0.9em;
 }

@@ -5,47 +5,104 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Buddha</title>
-	<link rel="icon" href="assets/cry.svg" type="image/png">
+	<link rel="icon" href="assets/terminal.svg" type="image/svg+xml">
 	<link rel="stylesheet" href="styles.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
 </head>
 
 <body>
-	<div class="wrapper">
-		<div class="content">
-			<header>
+	<div class="terminal">
+		<div class="terminal-header">
+			<span class="dot red"></span>
+			<span class="dot yellow"></span>
+			<span class="dot green"></span>
+			<span class="terminal-title">buddha@nixos: ~/portfolio</span>
+		</div>
+		<div class="terminal-content">
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span> whoami
+			</div>
+			<div class="output">
 				<h1>Buddha Mani Gautam</h1>
-				<p>Computer Engineer, <a href="https://ku.edu.np/" class="link_inline">KU</a></p>
-			</header>
-			<section class="about">
-				<h2>About Me</h2>
-				<p>I'm a Backend Developer currently working at <a href="https://khalti.com"
-						class="link_inline">Khalti</a>.
-					I have strong affinity with linux systems and currently I am exploring DevOps by setting up my own
-					Home lab.
-				</p>
+				<p class="subtitle">Computer Engineer <a href="https://ku.edu.np/" class="nav-link" target="_blank">
+					<i class="fas fa-university"></i> KU</a></p>
+			</div>
 
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span> ls -la links/
+			</div>
+			<div class="output links">
+				<a href="https://github.com/buddhadonthavemoney/" target="_blank">
+					<i class="fab fa-github"></i> GitHub
+				</a>
+				<a href="https://www.linkedin.com/in/buddhagautam/" target="_blank">
+					<i class="fab fa-linkedin"></i> LinkedIn
+				</a>
+				<a href="https://blog.buddhag.com.np" target="_blank">
+					<i class="fas fa-blog"></i> Blog
+				</a>
+				<a href="./assets/Buddha-Mani-Gautam.pdf" download target="_blank">
+					<i class="fas fa-file-download"></i> Portfolio
+				</a>
+			</div>
 
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span> cat about.txt
+			</div>
+			<div class="output">
+				<p>I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS products. I love open source 
+				and Linux systems (I use NixOS btw. You might know by now hahaha). Used to be a Neovim purist, but now I vibe with Cursor.</p>
+			</div>
 
-			</section>
-			<section class="links">
-				<h2>Find Me Online</h2>
-				<ul>
-					<li><a href="https://github.com/buddhadonthavemoney/" target="_blank"><i class="fab fa-github"></i>
-							&nbsp; Github </a></li>
-					<li><a href="https://www.linkedin.com/in/buddha-gautam-2648aa228/" target="_blank"><i
-								class="fab fa-linkedin"></i> LinkedIn</a></li>
-					<li><a href="https://blog.buddhag.com.np" target="_blank"><i class="fas fa-blog"></i> Blog </a></li>
-					<li><a href="./assets/Buddha-Mani-Gautam.pdf" download target="_blank"><i
-								class="fas fa-file-download"></i> Download Portfolio</a></li>
-				</ul>
-			</section>
-			<footer>
-				<p>&copy; 2024 Buddha Mani Gautam</p>
-			</footer>
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span> cat weekday.txt
+			</div>
+			<div class="output">
+				<p>I am a gym rat. Currently, I squat 110kg, bench 70kg, and deadlift 140kg — not where 
+				I want to be, but getting stronger every day. Will definitely be a member of 1000lbs club one day. In a very little time left i go through some hackernews and read some pages of a book.</p>
+			</div>
 
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span> cat weekend.txt
+			</div>
+			<div class="output">
+				<p>On weekends, you'll find me either on motorcycle rides exploring new places, or at a hillside cafe 
+				with an americano and a good book.</p>
+				
+				<p>In the next few years, I plan to take my bike around the world. Reading books living on the road. 
+				What else would a guy want.</p>
+			</div>
+
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span> cat tech.txt
+			</div>
+			<div class="output">
+				<p>On the tech side, I'm fascinated by databases, self-hosting services, and homelab setups. The elegance 
+				of ACID-compliant systems — handling millions of updates and billions of reads in milliseconds — drives my 
+				interest. I also enjoy building self-hosted solutions, from media streaming to personal cloud services, 
+				optimizing for performance and reliability.</p>
+			</div>
+			
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span> echo $QUOTE_OF_THE_DAY | cowsay
+			</div>
+			<div class="output">
+				<pre class="cowsay">
+ _________________________________________
+/ When you reach the top you realize, the \
+\ mountain wasn't the obstacle, it was you./
+ -----------------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+</pre>
+			</div>
+			<div class="command-line">
+				<span class="prompt">buddha@nixos:~$</span><span class="cursor"></span>
+			</div>
 		</div>
 	</div>
 </body>
