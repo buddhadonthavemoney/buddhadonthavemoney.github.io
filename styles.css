@@ -150,3 +150,123 @@ footer {
 .nav-link i {
     font-size: 0.9em;
 }
+
+/* Base responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  .terminal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 4px;
+  }
+  
+  .terminal-content {
+    padding: 15px 10px;
+  }
+  
+  h1 {
+    font-size: 20px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+  }
+  
+  .output p {
+    font-size: 14px;
+  }
+  
+  .command-line {
+    font-size: 14px;
+  }
+  
+  .prompt {
+    font-size: 14px;
+  }
+  
+  .cowsay {
+    font-size: 10px;
+    overflow-x: auto;
+  }
+}
+
+/* Small phone adjustments */
+@media (max-width: 480px) {
+  .terminal-header {
+    padding: 8px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    margin-right: 4px;
+  }
+  
+  .terminal-title {
+    font-size: 12px;
+  }
+  
+  .links {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .links a {
+    padding: 5px 0;
+  }
+  
+  .output p {
+    font-size: 13px;
+  }
+  
+  .command-line {
+    font-size: 13px;
+  }
+  
+  .prompt {
+    font-size: 13px;
+  }
+}
+
+/* Fix for the cowsay ASCII art on mobile */
+@media (max-width: 600px) {
+  .cowsay {
+    font-size: 8px;
+    line-height: 1.1;
+    overflow-x: auto;
+    white-space: pre;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Touch-friendly links */
+@media (hover: none) {
+  .links a {
+    padding: 8px 0;
+    display: block;
+  }
+  
+  .links a:active {
+    opacity: 0.7;
+  }
+}
+
+/* Fix for viewport height issues on mobile browsers */
+@media (max-width: 768px) {
+  .terminal {
+    max-height: none;
+    height: auto;
+  }
+  
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  html {
+    height: -webkit-fill-available;
+  }
+}
