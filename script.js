@@ -9,25 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Helper Functions ---
     function ensureHistoryContainer() {
-        let historyContainer = document.querySelector('.command-history');
-        
-        if (!historyContainer) {
-            historyContainer = document.createElement('div');
-            historyContainer.className = 'command-history';
-            
-            // Insert before the command input if it exists
-            const inputElement = document.querySelector('.command-input');
-            if (inputElement && inputElement.parentNode) {
-                inputElement.parentNode.insertBefore(historyContainer, inputElement);
-            } else {
-                // Fallback - add to terminal content
-                terminalContent.appendChild(historyContainer);
-            }
+        if (!commandHistoryContainer) {
+            commandHistoryContainer = document.createElement('div');
+            commandHistoryContainer.className = 'command-history';
+            terminalContent.insertBefore(commandHistoryContainer, document.querySelector('.command-input'));
         }
-        
-        // Update the global variable
-        commandHistoryContainer = historyContainer;
-        return historyContainer;
+        return commandHistoryContainer;
     }
 
     // Modified scrollToBottom to allow immediate execution
@@ -52,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const historyContainer = ensureHistoryContainer();
         const commandLine = document.createElement('div');
         commandLine.className = 'history-line command-line';
-        commandLine.innerHTML = `<span class="prompt">buddha@nixos:~$</span> ${escapeHTML(command)}`;
+        commandLine.innerHTML = `<span class="prompt">buddha@nixos:~$</span> ${command}`;
         historyContainer.appendChild(commandLine);
         scrollToBottom(true);
     }
@@ -84,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             - clear: Clear the terminal screen<br>
             - echo [text]: Print back the text<br>
             - cowsay [text]: Show text with a cow`,
-        'about': () => `I'm a Backend/DevOps Engineer... (You can copy the full text here or load dynamically)`,
+        'about': () => `I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS product. I love open source and Linux systems (I use NixOS btw).`,
         'tech': () => `Fascinated by databases, self-hosting, NixOS... (Full text)`,
         'contact': () => `Find me on:<br>
             - <a href="https://github.com/buddhadonthavemoney/" target="_blank">GitHub</a><br>
@@ -95,38 +82,65 @@ document.addEventListener('DOMContentLoaded', () => {
         'echo': (args) => args.slice(1).join(' ') || 'Usage: echo [text]', // Pass args
         'cowsay': (args) => { // Pass args
             const text = args.slice(1).join(' ') || 'Moo!';
-            const cow = `
-    \\   ^__^
-     \\  (oo)\\_______
-        (__)\\       )\\/\\
-            ||----w |
-            ||     ||`;
-            const border = '_'.repeat(text.length + 2);
-            return `<pre class="cowsay"> ${border}\n< ${text} >\n ${'-'.repeat(text.length + 2)}${cow}</pre>`;
+            return `<pre class="cowsay">< ${text} >\n    \\   ^__^\n     \\  (oo)\\_______\n        (__)\\       )\\/\\\n            ||----w |\n            ||     ||</pre>`;
         }
     };
 
+    function setupCommandInputListener() {
+        // Remove any existing listeners first to avoid duplicates
+        commandInputField.removeEventListener('keydown', handleCommandInput);
+        
+        // Add the event listener
+        commandInputField.addEventListener('keydown', handleCommandInput);
+    }
+
+    function handleCommandInput(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const command = commandInputField.value.trim();
+            
+            if (command) {
+                // Debug log to see if this is being triggered
+                console.log('Processing command:', command);
+                
+                processCommand(command);
+                commandInputField.value = '';
+                
+                // Focus back on input after processing
+                setTimeout(() => {
+                    commandInputField.focus();
+                }, 10);
+            }
+        }
+    }
+
     function processCommand(command) {
+        console.log('Command received:', command);
+        
         // Add the command line to the history
         addCommandToHistory(command);
 
         const args = command.toLowerCase().trim().split(' ').filter(Boolean);
         const cmd = args[0];
+        console.log('Command parsed:', cmd, args);
 
         if (commands[cmd]) {
+            console.log('Command found in commands object');
             const result = commands[cmd](args);
+            console.log('Command result:', result);
+            
             if (result !== null) {
                 // Add the response text/HTML to the history
                 addResponseToHistory(result);
             }
         } else if (command) {
+            console.log('Command not found');
             addResponseToHistory(`Command not found: ${command}. Type 'help' for available commands.`);
         }
 
         // Force scroll after processing
         scrollToBottom(true);
     }
-
 
     // --- Event Listeners ---
     interactiveToggleButton.addEventListener('click', () => {
@@ -151,6 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add welcome message
             addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
             
+            // Make sure command input listener is set up
+            setupCommandInputListener();
+            
             // Focus and scroll with a slight delay to ensure DOM is updated
             setTimeout(() => {
                 if (commandInputField) {
@@ -163,22 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    commandInputField.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const command = commandInputField.value.trim();
-            
-            if (command) {
-                processCommand(command);
-                commandInputField.value = '';
-                
-                // Focus back on input after processing
-                setTimeout(() => {
-                    commandInputField.focus();
-                }, 10);
-            }
-        }
-    });
+    setupCommandInputListener();
 
     // Focus input when clicking inside terminal area (but DON'T force scroll here)
     terminalContent.addEventListener('click', (event) => {
@@ -210,6 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
         terminal.classList.toggle('interactive', startInteractive);
         interactiveToggleButton.classList.toggle('active', startInteractive);
         interactiveToggleButton.textContent = startInteractive ? 'Exit Interactive' : 'Enter Interactive';
+
+        // Set up the command input listener
+        setupCommandInputListener();
 
         if (startInteractive) {
             ensureHistoryContainer();
