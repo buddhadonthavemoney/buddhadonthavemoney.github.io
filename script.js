@@ -64,19 +64,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const commands = {
         'help': () => `Available commands:<br>
             - help: Show this help message<br>
-            - about: Display info about me<br>
-            - tech: Show tech interests<br>
+            - about: Readme<br>
+            - tech: Tech Readme<br>
             - contact: Show contact links<br>
             - date: Show the current date and time<br>
             - clear: Clear the terminal screen<br>
             - echo [text]: Print back the text<br>
-            - cowsay [text]: Show text with a cow`,
-        'about': () => `I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS product. I love open source and Linux systems (I use NixOS btw).`,
-        'tech': () => `Fascinated by databases, self-hosting, NixOS... (Full text)`,
-        'contact': () => `Find me on:<br>
-            - <a href="https://github.com/buddhadonthavemoney/" target="_blank">GitHub</a><br>
-            - <a href="https://www.linkedin.com/in/buddhagautam/" target="_blank">LinkedIn</a><br>
-            - <a href="https://blog.buddhag.com.np" target="_blank">Blog</a>`,
+            - cowsay [text]: Show text with a cow<br>
+            - books: Goodreads<br>
+            - weekday: Weekdays readme<br>
+            - weekend: Weekend readme`,
+
+        'about': () => `I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS product. I love open source 
+					and Linux systems (I use NixOS btw. You might know by now hahaha). Used to be a Neovim purist, but now I vibe with Cursor.`,
+        'tech': () => `On the tech side, I'm fascinated by databases, self-hosting services, and homelab setups. The elegance
+					of ACID-compliant systems — handling millions of updates and billions of reads in milliseconds — drives my 
+					interest. I also enjoy building self-hosted solutions, from media streaming to personal cloud services, 
+					optimizing for performance and reliability.`,
+        'weekday': () => `I am a gym rat. Currently, I squat 110kg, bench 70kg, and deadlift 140kg — not where 
+					I want to be, but getting stronger every day. Will definitely be a member of 1000lbs club one day.
+                    In the very little time left in the day, I go through some hackernews and read some pages of a book.`,
+        'weekend': () => `On weekends, you'll find me either on motorcycle rides exploring new places, or at a hillside cafe 
+					with an americano and a good book.
+					In the next few years, I plan to take my bike around the world. Reading books living on the road. 
+					What else would a guy want.`,
+        'books': () => `<div class="links">
+            <a href="https://www.goodreads.com/user/show/157231739-buddhaa-gautam" target="_blank">
+                <i class="fa fa-book"></i> Goodreads
+            </a>`,
+
+        'contact': () => `<div class="links">
+            <a href="https://github.com/buddhadonthavemoney/" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/buddhagautam/" target="_blank">
+                <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://blog.buddhag.com.np" target="_blank">
+                <i class="fas fa-blog"></i> Blog
+            </a>
+        </div>`,
         'date': () => new Date().toLocaleString(),
         'clear': () => { clearTerminal(); return null; }, // Special case for clear
         'echo': (args) => args.slice(1).join(' ') || 'Usage: echo [text]', // Pass args
@@ -89,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupCommandInputListener() {
         // Remove any existing listeners first to avoid duplicates
         commandInputField.removeEventListener('keydown', handleCommandInput);
-        
+
         // Add the event listener
         commandInputField.addEventListener('keydown', handleCommandInput);
     }
@@ -98,14 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') {
             e.preventDefault();
             const command = commandInputField.value.trim();
-            
+
             if (command) {
                 // Debug log to see if this is being triggered
                 console.log('Processing command:', command);
-                
+
                 processCommand(command);
                 commandInputField.value = '';
-                
+
                 // Focus back on input after processing
                 setTimeout(() => {
                     commandInputField.focus();
@@ -116,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function processCommand(command) {
         console.log('Command received:', command);
-        
+
         // Add the command line to the history
         addCommandToHistory(command);
 
@@ -128,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Command found in commands object');
             const result = commands[cmd](args);
             console.log('Command result:', result);
-            
+
             if (result !== null) {
                 // Add the response text/HTML to the history
                 addResponseToHistory(result);
@@ -158,16 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
             terminal.classList.add('interactive');
             interactiveToggleButton.classList.add('active');
             interactiveToggleButton.textContent = 'Exit Interactive';
-            
+
             // Ensure history container exists
             ensureHistoryContainer();
-            
+
             // Add welcome message
             addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
-            
+
             // Make sure command input listener is set up
             setupCommandInputListener();
-            
+
             // Focus and scroll with a slight delay to ensure DOM is updated
             setTimeout(() => {
                 if (commandInputField) {
@@ -201,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // (This combats the browser potentially scrolling to the top on focus)
     commandInputField.addEventListener('focus', () => {
         if (terminal.classList.contains('interactive')) {
-             scrollToBottom(true);
+            scrollToBottom(true);
         }
     });
 
@@ -220,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ensureHistoryContainer();
             // Add welcome message instead of help
             addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
-            
+
             setTimeout(() => {
                 commandInputField.focus();
                 scrollToBottom(true); // Force immediate scroll
