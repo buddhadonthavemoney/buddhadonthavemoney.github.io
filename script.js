@@ -3,9 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const terminalContent = document.querySelector('.terminal-content');
     const commandInputContainer = document.querySelector('.command-input'); // Select the container
     const commandInputField = document.getElementById('command-input-field');
-    const interactiveToggleButton = document.getElementById('interactive-toggle-btn'); // Get the button
     const staticContent = document.querySelector('.static-content');
     let commandHistoryContainer = null; // Initialize as null
+
+    // Select both buttons (in case either one is present)
+    const desktopToggleButton = document.getElementById('interactive-toggle-btn');
+    const mobileToggleButton = document.getElementById('mobile-interactive-toggle');
+    
+    console.log("Desktop button:", desktopToggleButton);
+    console.log("Mobile button:", mobileToggleButton);
 
     // --- Helper Functions ---
     function ensureHistoryContainer() {
@@ -170,44 +176,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Event Listeners ---
-    interactiveToggleButton.addEventListener('click', () => {
-        const isCurrentlyInteractive = terminal.classList.contains('interactive');
-
-        if (isCurrentlyInteractive) {
-            // --- Switching FROM Interactive TO Static ---
-            terminal.classList.remove('interactive');
-            interactiveToggleButton.classList.remove('active');
-            interactiveToggleButton.textContent = 'Enter Interactive';
-            clearTerminal(); // Clear history
-            terminalContent.scrollTop = 0; // Reset scroll for static view
-        } else {
-            // --- Switching FROM Static TO Interactive ---
-            terminal.classList.add('interactive');
-            interactiveToggleButton.classList.add('active');
-            interactiveToggleButton.textContent = 'Exit Interactive';
-
-            // Ensure history container exists
-            ensureHistoryContainer();
-
-            // Add welcome message
-            addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
-
-            // Make sure command input listener is set up
-            setupCommandInputListener();
-
-            // Focus and scroll with a slight delay to ensure DOM is updated
-            setTimeout(() => {
-                if (commandInputField) {
-                    commandInputField.focus();
-                    // Make sure it's not disabled
-                    commandInputField.disabled = false;
-                }
-                scrollToBottom(true); // Force immediate scroll
-            }, 100);
-        }
-    });
-
-    setupCommandInputListener();
+    // Remove the desktop mode toggle button event listener
+    // interactiveToggleButton.addEventListener('click', () => {
+    //     const isCurrentlyInteractive = terminal.classList.contains('interactive');
+    //     
+    //     if (isCurrentlyInteractive) {
+    //         // --- Switching FROM Interactive TO Static ---
+    //         terminal.classList.remove('interactive');
+    //         interactiveToggleButton.classList.remove('active');
+    //         interactiveToggleButton.textContent = 'Enter Interactive';
+    //         clearTerminal(); // Clear history
+    //         terminalContent.scrollTop = 0; // Reset scroll for static view
+    //     } else {
+    //         // --- Switching FROM Static TO Interactive ---
+    //         terminal.classList.add('interactive');
+    //         interactiveToggleButton.classList.add('active');
+    //         interactiveToggleButton.textContent = 'Exit Interactive';
+    //         
+    //         // Ensure history container exists
+    //         ensureHistoryContainer();
+    //         
+    //         // Add welcome message
+    //         addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
+    //         
+    //         // Make sure command input listener is set up
+    //         setupCommandInputListener();
+    //         
+    //         // Focus and scroll with a slight delay to ensure DOM is updated
+    //         setTimeout(() => {
+    //             if (commandInputField) {
+    //                 commandInputField.focus();
+    //                 // Make sure it's not disabled
+    //                 commandInputField.disabled = false;
+    //             }
+    //             scrollToBottom(true); // Force immediate scroll
+    //         }, 100);
+    //     }
+    // });
 
     // Focus input when clicking inside terminal area (but DON'T force scroll here)
     terminalContent.addEventListener('click', (event) => {
@@ -235,19 +240,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initial Setup ---
     function setupInitialMode() {
         const startInteractive = false; // Keep default as false for now
-
+        
         terminal.classList.toggle('interactive', startInteractive);
-        interactiveToggleButton.classList.toggle('active', startInteractive);
-        interactiveToggleButton.textContent = startInteractive ? 'Exit Interactive' : 'Enter Interactive';
-
+        
+        // Update both buttons instead of using toggleButton
+        if (desktopToggleButton) {
+            desktopToggleButton.classList.toggle('active', startInteractive);
+            desktopToggleButton.textContent = startInteractive ? 'Exit Interactive' : 'Enter Interactive';
+        }
+        
+        if (mobileToggleButton) {
+            mobileToggleButton.classList.toggle('active', startInteractive);
+        }
+        
         // Set up the command input listener
         setupCommandInputListener();
-
+        
         if (startInteractive) {
             ensureHistoryContainer();
-            // Add welcome message instead of help
             addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
-
+            
             setTimeout(() => {
                 commandInputField.focus();
                 scrollToBottom(true); // Force immediate scroll
@@ -256,5 +268,126 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setupInitialMode(); // Run on load
+
+    // Use the title bar toggle button for all screen sizes
+    const toggleButton = document.getElementById('mobile-interactive-toggle');
+    
+    console.log("Toggle button found:", toggleButton); // Debug log to verify button is found
+    
+    // Directly add click event to ensure it's working
+    if (toggleButton) {
+        console.log("Adding click event to toggle button");
+        
+        toggleButton.addEventListener('click', function(e) {
+            console.log("Toggle button clicked"); // Debug log
+            e.preventDefault(); // Prevent any default behavior
+            
+            const isCurrentlyInteractive = terminal.classList.contains('interactive');
+            console.log("Currently interactive:", isCurrentlyInteractive);
+            
+            if (isCurrentlyInteractive) {
+                // --- Switching FROM Interactive TO Static ---
+                terminal.classList.remove('interactive');
+                toggleButton.classList.remove('active');
+                clearTerminal(); // Clear history
+                terminalContent.scrollTop = 0; // Reset scroll for static view
+            } else {
+                // --- Switching FROM Static TO Interactive ---
+                terminal.classList.add('interactive');
+                toggleButton.classList.add('active');
+                
+                // Ensure history container exists
+                ensureHistoryContainer();
+                
+                // Add welcome message
+                addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
+                
+                // Focus and scroll with a slight delay to ensure DOM is updated
+                setTimeout(() => {
+                    if (commandInputField) {
+                        commandInputField.focus();
+                        commandInputField.disabled = false;
+                    }
+                    scrollToBottom(true); // Force immediate scroll
+                }, 50);
+            }
+        });
+        
+        // Also add a direct onclick attribute as a backup
+        toggleButton.setAttribute('onclick', "console.log('Button clicked via onclick')");
+    } else {
+        console.error("Toggle button not found!");
+    }
+
+    // Create a single toggle function to handle interactive mode
+    function toggleInteractiveMode() {
+        console.log("Toggle function called");
+        const isCurrentlyInteractive = terminal.classList.contains('interactive');
+        console.log("Currently interactive:", isCurrentlyInteractive);
+        
+        if (isCurrentlyInteractive) {
+            // --- Switching FROM Interactive TO Static ---
+            console.log("Switching to static mode");
+            terminal.classList.remove('interactive');
+            
+            // Update button states
+            if (desktopToggleButton) {
+                desktopToggleButton.classList.remove('active');
+                desktopToggleButton.textContent = 'Enter Interactive';
+            }
+            if (mobileToggleButton) {
+                mobileToggleButton.classList.remove('active');
+            }
+            
+            clearTerminal(); // Clear history
+            terminalContent.scrollTop = 0; // Reset scroll for static view
+        } else {
+            // --- Switching FROM Static TO Interactive ---
+            console.log("Switching to interactive mode");
+            
+            // Clear any existing history first to prevent duplicates
+            clearTerminal();
+            
+            terminal.classList.add('interactive');
+            
+            // Update button states
+            if (desktopToggleButton) {
+                desktopToggleButton.classList.add('active');
+                desktopToggleButton.textContent = 'Exit Interactive';
+            }
+            if (mobileToggleButton) {
+                mobileToggleButton.classList.add('active');
+            }
+            
+            // Ensure history container exists
+            ensureHistoryContainer();
+            
+            // Add welcome message (only once)
+            addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
+            
+            // Focus and scroll with a slight delay to ensure DOM is updated
+            setTimeout(() => {
+                if (commandInputField) {
+                    commandInputField.focus();
+                    commandInputField.disabled = false;
+                }
+                scrollToBottom(true); // Force immediate scroll
+            }, 100);
+        }
+    }
+    
+    // Attach the toggle function to both buttons
+    if (desktopToggleButton) {
+        console.log("Adding click handler to desktop button");
+        desktopToggleButton.addEventListener('click', toggleInteractiveMode);
+    }
+    
+    if (mobileToggleButton) {
+        console.log("Adding click handler to mobile button");
+        mobileToggleButton.addEventListener('click', toggleInteractiveMode);
+        
+        // Add direct onclick attribute as a fallback
+        mobileToggleButton.setAttribute('onclick', "document.querySelector('.terminal').classList.toggle('interactive'); this.classList.toggle('active');");
+    }
 
 }); // End of DOMContentLoaded 

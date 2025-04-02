@@ -12,11 +12,15 @@
 </head>
 
 <body>
+	<!-- Remove the desktop mode toggle button from HTML -->
+	<!-- Delete or comment out this section: -->
+	<!--
 	<div class="mode-toggle">
 		<button id="interactive-toggle-btn" class="toggle-button">
 			Enter Interactive
 		</button>
 	</div>
+	-->
 
 	<div class="terminal">
 		<div class="terminal-header">
@@ -24,6 +28,9 @@
 			<span class="dot yellow"></span>
 			<span class="dot green"></span>
 			<span class="terminal-title">buddha@nixos: ~/portfolio</span>
+			<span class="mobile-toggle" id="mobile-interactive-toggle">
+				<i class="fas fa-terminal"></i>
+			</span>
 		</div>
 		<div class="terminal-content">
 			<div class="static-content">

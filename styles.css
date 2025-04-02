@@ -161,21 +161,27 @@ footer {
 /* Base responsive adjustments */
 @media (max-width: 768px) {
   body {
-    padding: 10px;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1d21;
   }
   
   .terminal {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 4px;
-    max-height: none;
-    height: auto;
-    min-height: 70vh;
     width: 95%;
+    height: 95vh;
+    margin: 0;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   }
   
   .terminal-content {
-    padding: 15px 10px;
+    padding: 10px;
+    font-size: 14px;
   }
   
   h1 {
@@ -191,18 +197,50 @@ footer {
   }
   
   .command-line {
-    font-size: 14px;
+    margin-top: 15px;
   }
   
   .prompt {
     font-size: 14px;
+  }
+  
+  .links a {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  
+  pre.cowsay {
+    font-size: 11px;
+    white-space: pre-wrap;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .mode-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+  }
+  
+  .toggle-button {
+    background-color: #4a5568;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
   }
 }
 
 /* Small phone adjustments */
 @media (max-width: 480px) {
   .terminal-header {
-    padding: 8px;
+    padding: 8px 10px;
   }
   
   .dot {
@@ -212,7 +250,7 @@ footer {
   }
   
   .terminal-title {
-    font-size: 12px;
+    font-size: 13px;
   }
   
   .links {
@@ -221,7 +259,8 @@ footer {
   }
   
   .links a {
-    padding: 5px 0;
+    display: block;
+    margin-bottom: 8px;
   }
   
   .output p {
@@ -317,7 +356,7 @@ footer {
 
 /* Style for when interactive mode is ACTIVE */
 .toggle-button.active {
-    background-color: #BF616A; /* Use a different color (e.g., red) for active state */
+    background-color: #be6870; /* Use a different color (e.g., red) for active state */
     color: var(--text-color);
 }
 
@@ -326,7 +365,7 @@ footer {
 }
 
 .toggle-button.active:active {
-    background-color: #a35058; /* Darker red */
+    background-color: #ae656c; /* Darker red */
 }
 
 /* Command Input Area Styling */
@@ -485,4 +524,59 @@ footer {
 .command-history {
     overflow-y: auto;
     max-height: calc(100% - 30px); /* Adjust based on your command input height */
+}
+
+/* Style the toggle button with red color scheme matching the close circle */
+.mobile-toggle {
+    margin-left: auto;
+    cursor: pointer !important;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    
+    /* Default state (non-interactive) */
+    background-color: rgba(74, 85, 104, 0.7);
+    color: #cbd5e0;
+}
+
+/* Hover state */
+.mobile-toggle:hover {
+    background-color: rgba(74, 85, 104, 0.9);
+    color: white;
+}
+
+/* Active state (interactive mode) - red color matching close button */
+.mobile-toggle.active {
+    background-color: #be6870; /* Red color similar to close button */
+    color: white;
+}
+
+/* Active + hover state */
+.mobile-toggle.active:hover {
+    background-color: rgb(203, 63, 63); /* Darker red on hover */
+}
+
+/* Change the text based on state */
+.mobile-toggle::after {
+    content: "Interactive";
+    margin-left: 6px;
+    font-size: 12px;
+}
+
+.mobile-toggle.active::after {
+    content: "Exit";
+}
+
+/* For very small screens, just show icon */
+@media (max-width: 480px) {
+    .mobile-toggle::after,
+    .mobile-toggle.active::after {
+        content: "";
+        margin-left: 0;
+    }
 }
