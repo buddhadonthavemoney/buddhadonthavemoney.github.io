@@ -185,11 +185,6 @@ footer {
   .prompt {
     font-size: 14px;
   }
-  
-  .cowsay {
-    font-size: 10px;
-    overflow-x: auto;
-  }
 }
 
 /* Small phone adjustments */
@@ -233,8 +228,8 @@ footer {
 /* Fix for the cowsay ASCII art on mobile */
 @media (max-width: 600px) {
   .cowsay {
-    font-size: 8px;
-    line-height: 1.1;
+    font-size: 13px;
+    line-height: 1.2;
     overflow-x: auto;
     white-space: pre;
     -webkit-overflow-scrolling: touch;
