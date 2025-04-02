@@ -12,6 +12,12 @@
 </head>
 
 <body>
+	<div class="mode-toggle">
+		<button id="interactive-toggle-btn" class="toggle-button">
+			Enter Interactive
+		</button>
+	</div>
+
 	<div class="terminal">
 		<div class="terminal-header">
 			<span class="dot red"></span>
@@ -20,72 +26,73 @@
 			<span class="terminal-title">buddha@nixos: ~/portfolio</span>
 		</div>
 		<div class="terminal-content">
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span> whoami
-			</div>
-			<div class="output">
-				<h1>Buddha Mani Gautam</h1>
-				<p class="subtitle">Computer Engineer <a href="https://ku.edu.np/" class="nav-link" target="_blank">
-					<i class="fas fa-university"></i> KU</a></p>
-			</div>
+			<div class="static-content">
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span> whoami
+				</div>
+				<div class="output">
+					<h1>Buddha Mani Gautam</h1>
+					<p class="subtitle">Computer Engineer <a href="https://ku.edu.np/" class="nav-link" target="_blank">
+						<i class="fas fa-university"></i> KU</a></p>
+				</div>
 
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span> ls links/
-			</div>
-			<div class="output links">
-				<a href="https://github.com/buddhadonthavemoney/" target="_blank">
-					<i class="fab fa-github"></i> GitHub
-				</a>
-				<a href="https://www.linkedin.com/in/buddhagautam/" target="_blank">
-					<i class="fab fa-linkedin"></i> LinkedIn
-				</a>
-				<a href="https://blog.buddhag.com.np" target="_blank">
-					<i class="fas fa-blog"></i> Blog
-				</a>
-			</div>
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span> ls links/
+				</div>
+				<div class="output links">
+					<a href="https://github.com/buddhadonthavemoney/" target="_blank">
+						<i class="fab fa-github"></i> GitHub
+					</a>
+					<a href="https://www.linkedin.com/in/buddhagautam/" target="_blank">
+						<i class="fab fa-linkedin"></i> LinkedIn
+					</a>
+					<a href="https://blog.buddhag.com.np" target="_blank">
+						<i class="fas fa-blog"></i> Blog
+					</a>
+				</div>
 
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span> cat about.txt
-			</div>
-			<div class="output">
-				<p>I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS product. I love open source 
-				and Linux systems (I use NixOS btw. You might know by now hahaha). Used to be a Neovim purist, but now I vibe with Cursor.</p>
-			</div>
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span> cat about.txt
+				</div>
+				<div class="output">
+					<p>I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS product. I love open source 
+					and Linux systems (I use NixOS btw. You might know by now hahaha). Used to be a Neovim purist, but now I vibe with Cursor.</p>
+				</div>
 
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span> cat weekday.txt
-			</div>
-			<div class="output">
-				<p>I am a gym rat. Currently, I squat 110kg, bench 70kg, and deadlift 140kg — not where 
-				I want to be, but getting stronger every day. Will definitely be a member of 1000lbs club one day. In the very little time left in the day, I go through some hackernews and read some pages of a book.</p>
-			</div>
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span> cat weekday.txt
+				</div>
+				<div class="output">
+					<p>I am a gym rat. Currently, I squat 110kg, bench 70kg, and deadlift 140kg — not where 
+					I want to be, but getting stronger every day. Will definitely be a member of 1000lbs club one day. In the very little time left in the day, I go through some hackernews and read some pages of a book.</p>
+				</div>
 
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span> cat weekend.txt
-			</div>
-			<div class="output">
-				<p>On weekends, you'll find me either on motorcycle rides exploring new places, or at a hillside cafe 
-				with an americano and a good book.</p>
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span> cat weekend.txt
+				</div>
+				<div class="output">
+					<p>On weekends, you'll find me either on motorcycle rides exploring new places, or at a hillside cafe 
+					with an americano and a good book.</p>
+					
+					<p>In the next few years, I plan to take my bike around the world. Reading books living on the road. 
+					What else would a guy want.</p>
+				</div>
+
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span> cat tech.txt
+				</div>
+				<div class="output">
+					<p>On the tech side, I'm fascinated by databases, self-hosting services, and homelab setups. The elegance 
+					of ACID-compliant systems — handling millions of updates and billions of reads in milliseconds — drives my 
+					interest. I also enjoy building self-hosted solutions, from media streaming to personal cloud services, 
+					optimizing for performance and reliability.</p>
+				</div>
 				
-				<p>In the next few years, I plan to take my bike around the world. Reading books living on the road. 
-				What else would a guy want.</p>
-			</div>
-
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span> cat tech.txt
-			</div>
-			<div class="output">
-				<p>On the tech side, I'm fascinated by databases, self-hosting services, and homelab setups. The elegance 
-				of ACID-compliant systems — handling millions of updates and billions of reads in milliseconds — drives my 
-				interest. I also enjoy building self-hosted solutions, from media streaming to personal cloud services, 
-				optimizing for performance and reliability.</p>
-			</div>
-			
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span> echo $QUOTE_OF_THE_DAY | cowsay
-			</div>
-			<div class="output">
-				<pre class="cowsay">
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span> echo $QUOTE_OF_THE_DAY | cowsay
+				</div>
+				<div class="output">
+					<pre class="cowsay">
  _________________________________________
 / When you reach the top you realize, the \
 \ mountain wasn't the obstacle, it was you./
@@ -96,13 +103,25 @@
                 ||----w |
                 ||     ||
 </pre>
+				</div>
+				<div class="command-line">
+					<span class="prompt">buddha@nixos:~$</span><span class="cursor"></span>
+				</div>
 			</div>
-			<div class="command-line">
-				<span class="prompt">buddha@nixos:~$</span><span class="cursor"></span>
+
+			<!-- Command History Container (Added by JS) -->
+			<!-- <div class="command-history"></div> -->
+
+			<!-- Command Input Area (Initially Hidden) -->
+			<div class="command-input">
+				<!-- Update the prompt text here -->
+				<span class="prompt">buddha@nixos:~$</span>
+				<input type="text" id="command-input-field" autocomplete="off" spellcheck="false">
 			</div>
 		</div>
 	</div>
 
+	<script src="script.js"></script>
 </body>
 
 </html>

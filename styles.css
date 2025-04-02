@@ -27,9 +27,13 @@ body {
     max-width: 800px;
     border-radius: 6px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-height: 90vh;
+    max-height: 80vh;
+    height: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: height 0.4s ease, max-height 0.4s ease;
+    box-sizing: border-box;
 }
 
 .terminal-header {
@@ -58,8 +62,12 @@ body {
 }
 
 .terminal-content {
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
     flex-grow: 1;
 }
 
@@ -160,6 +168,10 @@ footer {
     width: 100%;
     max-width: 100%;
     border-radius: 4px;
+    max-height: none;
+    height: auto;
+    min-height: 70vh;
+    width: 95%;
   }
   
   .terminal-content {
@@ -250,9 +262,9 @@ footer {
 
 /* Fix for viewport height issues on mobile browsers */
 @media (max-width: 768px) {
-    .terminal {
-        max-height: none;
-        height: auto;
+    .terminal.interactive {
+         min-height: 85vh;
+         height: auto;
     }
     
     body {
@@ -266,4 +278,211 @@ footer {
     html {
         height: -webkit-fill-available;
     }
+}
+
+/* --- Additions for Interactive Mode --- */
+
+/* Style the toggle button container */
+.mode-toggle {
+    position: fixed; /* Position relative to the viewport */
+    top: 15px;       /* Distance from top */
+    right: 20px;      /* Distance from right */
+    z-index: 1000;    /* Ensure it's above other elements */
+}
+
+/* Style the new toggle button */
+.toggle-button {
+    background-color: var(--accent-color); /* Use accent color */
+    color: var(--bg-color); /* Use background color for text */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-weight: bold;
+}
+
+.toggle-button:hover {
+    background-color: #81A1C1; /* Slightly lighter accent */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.toggle-button:active {
+    transform: scale(0.97); /* Simple press animation */
+    background-color: #5E81AC; /* Darker accent */
+}
+
+/* Style for when interactive mode is ACTIVE */
+.toggle-button.active {
+    background-color: #BF616A; /* Use a different color (e.g., red) for active state */
+    color: var(--text-color);
+}
+
+.toggle-button.active:hover {
+    background-color: #d08770; /* Lighter red/orange */
+}
+
+.toggle-button.active:active {
+    background-color: #a35058; /* Darker red */
+}
+
+/* Command Input Area Styling */
+.command-input {
+    display: none;
+    align-items: center;
+    padding-bottom: 5px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.command-input .prompt {
+    color: var(--prompt-color);
+    margin-right: 10px;
+}
+
+#command-input-field {
+    flex-grow: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: inherit;
+    caret-color: var(--cursor-color);
+}
+
+/* --- State Changes based on '.interactive' class --- */
+
+/* When terminal IS interactive */
+.terminal.interactive .static-content {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    pointer-events: none;
+}
+
+.terminal.interactive .command-input {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ensure command history (added by JS) is visible */
+.terminal.interactive .command-history {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* When terminal IS NOT interactive (Default State) */
+.terminal:not(.interactive) .static-content {
+    opacity: 1;
+    visibility: visible;
+    position: static;
+    pointer-events: auto;
+}
+
+.terminal:not(.interactive) .command-input {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+}
+
+/* Hide command history container when not interactive */
+.terminal:not(.interactive) .command-history {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+}
+
+/* Add a slightly longer transition for content visibility */
+.static-content, .command-input, .command-history {
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+
+/* Specific transitions for entering/leaving interactive mode */
+.terminal.interactive .static-content {
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s, position 0s linear 0.4s;
+}
+.terminal:not(.interactive) .static-content {
+     transition: opacity 0.4s ease 0.1s;
+}
+
+.terminal.interactive .command-input,
+.terminal.interactive .command-history {
+    transition: opacity 0.4s ease 0.1s;
+}
+
+.terminal:not(.interactive) .command-input,
+.terminal:not(.interactive) .command-history {
+     transition: opacity 0.4s ease, visibility 0s linear 0.4s, display 0s linear 0.4s;
+}
+
+/* Adjust padding/margins if needed for interactive mode */
+.terminal.interactive .terminal-content {
+    padding-bottom: 10px;
+}
+
+/* Style the command/response history added by JS */
+.command-history .command {
+    display: flex;
+    margin-bottom: 5px;
+}
+.command-history .command .prompt {
+    margin-right: 10px;
+    color: var(--prompt-color);
+}
+.command-history .command .command-text {
+    color: var(--text-color);
+}
+.command-history .response {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+.command-history .response a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+.command-history .response a:hover {
+    opacity: 0.8;
+}
+.command-history .response .cowsay {
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--text-color);
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/* Ensure terminal content scrolls properly */
+.terminal-content {
+    position: relative;
+}
+
+/* Make terminal taller in interactive mode */
+.terminal.interactive {
+    height: 75vh;
+    max-height: 90vh;
+}
+
+/* Ensure history container takes up necessary space */
+.command-history {
+    margin-bottom: 10px;
+}
+
+/* Ensure command input stays at the bottom */
+.terminal.interactive .terminal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Make sure history takes up available space but allows scrolling */
+.command-history {
+    overflow-y: auto;
+    max-height: calc(100% - 30px); /* Adjust based on your command input height */
 }
