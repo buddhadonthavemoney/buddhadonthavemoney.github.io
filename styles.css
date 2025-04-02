@@ -19,7 +19,6 @@ body {
     align-items: center;
     min-height: 100vh;
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 .terminal {
@@ -256,17 +255,20 @@ footer {
 
 /* Fix for viewport height issues on mobile browsers */
 @media (max-width: 768px) {
-  .terminal {
-    max-height: none;
-    height: auto;
-  }
-  
-  body {
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-  }
-  
-  html {
-    height: -webkit-fill-available;
-  }
+    .terminal {
+        max-height: none;
+        height: auto;
+    }
+    
+    body {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        overflow-y: auto;
+        align-items: flex-start;
+        padding: 10px;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
 }
