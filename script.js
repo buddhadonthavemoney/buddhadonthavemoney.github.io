@@ -23,21 +23,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return commandHistoryContainer;
     }
 
-    // Modified scrollToBottom to allow immediate execution
+    // Improve the scrollToBottom function to be more reliable
     function scrollToBottom(immediate = false) {
-        const scrollAction = () => {
-            // Use scrollHeight to scroll all the way down
-            terminalContent.scrollTop = terminalContent.scrollHeight;
+        // Function to perform the actual scrolling
+        const performScroll = () => {
+            // Force scroll to the absolute bottom
+            if (terminalContent) {
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+                console.log('Scrolled to bottom:', terminalContent.scrollTop, 'of', terminalContent.scrollHeight);
+            }
         };
-
+        
+        // Use requestAnimationFrame for smoother scrolling
+        requestAnimationFrame(performScroll);
+        
+        // Then add multiple delayed scrolls to catch any delayed content rendering
         if (immediate) {
-            scrollAction();
-            // Add a second call with a slight delay as a backup
-            setTimeout(scrollAction, 10);
+            // For immediate actions (adding commands, responses)
+            setTimeout(performScroll, 10);
+            setTimeout(performScroll, 50);
+            setTimeout(performScroll, 150);
+            setTimeout(performScroll, 300); // Additional longer timeout
         } else {
-            setTimeout(scrollAction, 50);
-            // Add a second call with a longer delay as a backup
-            setTimeout(scrollAction, 100);
+            // For non-immediate actions
+            setTimeout(performScroll, 100);
+            setTimeout(performScroll, 300);
         }
     }
 
@@ -47,16 +57,28 @@ document.addEventListener('DOMContentLoaded', () => {
         commandLine.className = 'history-line command-line';
         commandLine.innerHTML = `<span class="prompt">buddha@nixos:~$</span> ${command}`;
         historyContainer.appendChild(commandLine);
+        
+        // Force scroll to bottom
         scrollToBottom(true);
     }
 
-    function addResponseToHistory(responseHTML) {
-        const historyContainer = ensureHistoryContainer();
+    function addResponseToHistory(response) {
+        const historyContainer = document.querySelector('.command-history');
+        if (!historyContainer) return;
+        
         const responseLine = document.createElement('div');
-        responseLine.className = 'history-line response-line';
-        responseLine.innerHTML = responseHTML;
+        responseLine.className = 'response';
+        
+        // Always use innerHTML to properly render HTML tags
+        responseLine.innerHTML = response;
+        
         historyContainer.appendChild(responseLine);
-        scrollToBottom(true);
+        
+        // Try to scroll immediately
+        forceScrollToBottom();
+        
+        // Also try after a short delay to catch any rendering issues
+        setTimeout(forceScrollToBottom, 10);
     }
 
     function clearTerminal() {
@@ -148,31 +170,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function processCommand(command) {
-        console.log('Command received:', command);
-
-        // Add the command line to the history
+        console.log('Processing command:', command);
+        
+        // Add the command to history
         addCommandToHistory(command);
-
+        
         const args = command.toLowerCase().trim().split(' ').filter(Boolean);
         const cmd = args[0];
-        console.log('Command parsed:', cmd, args);
-
+        
         if (commands[cmd]) {
-            console.log('Command found in commands object');
             const result = commands[cmd](args);
-            console.log('Command result:', result);
-
             if (result !== null) {
-                // Add the response text/HTML to the history
                 addResponseToHistory(result);
             }
-        } else if (command) {
-            console.log('Command not found');
+        } else if (command.trim()) {
             addResponseToHistory(`Command not found: ${command}. Type 'help' for available commands.`);
         }
-
-        // Force scroll after processing
-        scrollToBottom(true);
+        
+        // More aggressive scroll approach with multiple attempts
+        setTimeout(forceScrollToBottom, 0);
+        setTimeout(forceScrollToBottom, 50);
+        setTimeout(forceScrollToBottom, 100);
+        setTimeout(forceScrollToBottom, 300);
     }
 
     // --- Event Listeners ---
@@ -388,6 +407,69 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add direct onclick attribute as a fallback
         mobileToggleButton.setAttribute('onclick', "document.querySelector('.terminal').classList.toggle('interactive'); this.classList.toggle('active');");
+    }
+
+    // Add a MutationObserver to ensure scrolling when content changes
+    function setupScrollObserver() {
+        if (!window.scrollObserver) {
+            window.scrollObserver = new MutationObserver((mutations) => {
+                // Check if any mutations added nodes to the terminal content
+                const contentAdded = mutations.some(mutation => 
+                    mutation.type === 'childList' && mutation.addedNodes.length > 0);
+                    
+                if (contentAdded) {
+                    // Use requestAnimationFrame for smoother scrolling
+                    requestAnimationFrame(() => {
+                        scrollToBottom(true);
+                    });
+                }
+            });
+            
+            // Observe the terminal content for changes
+            window.scrollObserver.observe(terminalContent, {
+                childList: true,
+                subtree: true,
+                characterData: true,
+                attributes: false
+            });
+        }
+    }
+
+    // Set up the scroll observer
+    setupScrollObserver();
+    
+    // Also add an event listener for the input field to ensure scrolling on input
+    commandInputField.addEventListener('focus', () => {
+        scrollToBottom(true);
+    });
+    
+    // Ensure scrolling when window is resized
+    window.addEventListener('resize', () => {
+        scrollToBottom(true);
+    });
+
+    // Add this function to your script.js file
+    function forceScrollToBottom() {
+        // Get the correct container to scroll
+        const terminal = document.querySelector('.terminal');
+        const terminalContent = document.querySelector('.terminal-content');
+        const historyContainer = document.querySelector('.command-history');
+        
+        // Try multiple container levels to ensure at least one works
+        if (historyContainer) {
+            historyContainer.scrollTop = historyContainer.scrollHeight;
+        }
+        
+        if (terminalContent) {
+            terminalContent.scrollTop = terminalContent.scrollHeight;
+        }
+        
+        if (terminal) {
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        // Log to help debug
+        console.log('Force scroll executed');
     }
 
 }); // End of DOMContentLoaded 
