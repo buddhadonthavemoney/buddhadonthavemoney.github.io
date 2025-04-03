@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Clear terminal and scroll to top (matching existing behavior)
                 clearTerminal();
                 terminalContent.scrollTop = 0;
-            }, 200);
+            }, 500);
             
             return null; // Don't add additional response
         }
