@@ -638,3 +638,57 @@ footer {
         transform: translateX(18px);
     }
 }
+
+/* Add these styles for the blinking cursor */
+.cursor-container {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.blinking-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 18px;
+    background-color: var(--text-color);
+    animation: blink 1s infinite;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* Only show cursor in normal mode, hide in interactive mode */
+.terminal.interactive .cursor-container {
+    display: none;
+}
+
+/* Make the entire last command line clickable */
+.command-line.clickable {
+    cursor: pointer;
+    position: relative;
+    padding: 5px 0;
+    border-radius: 2px;
+    transition: background-color 0.2s;
+}
+
+.command-line.clickable:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Add a subtle hint on hover */
+.command-line.clickable:hover::after {
+    content: "Click to enter interactive mode";
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    opacity: 0.5;
+    color: var(--prompt-color);
+}
+
+/* Keep the blinking cursor visible */
+.terminal.interactive .cursor-container {
+    display: none;
+}

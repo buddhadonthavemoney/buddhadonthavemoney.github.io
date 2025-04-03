@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Clear terminal and scroll to top (matching existing behavior)
                 clearTerminal();
                 terminalContent.scrollTop = 0;
-            }, 800);
+            }, 400);
             
             return null; // Don't add additional response
         }
@@ -224,44 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(forceScrollToBottom, 300);
     }
 
-    // --- Event Listeners ---
-    // Remove the desktop mode toggle button event listener
-    // interactiveToggleButton.addEventListener('click', () => {
-    //     const isCurrentlyInteractive = terminal.classList.contains('interactive');
-    //     
-    //     if (isCurrentlyInteractive) {
-    //         // --- Switching FROM Interactive TO Static ---
-    //         terminal.classList.remove('interactive');
-    //         interactiveToggleButton.classList.remove('active');
-    //         interactiveToggleButton.textContent = 'Enter Interactive';
-    //         clearTerminal(); // Clear history
-    //         terminalContent.scrollTop = 0; // Reset scroll for static view
-    //     } else {
-    //         // --- Switching FROM Static TO Interactive ---
-    //         terminal.classList.add('interactive');
-    //         interactiveToggleButton.classList.add('active');
-    //         interactiveToggleButton.textContent = 'Exit Interactive';
-    //         
-    //         // Ensure history container exists
-    //         ensureHistoryContainer();
-    //         
-    //         // Add welcome message
-    //         addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
-    //         
-    //         // Make sure command input listener is set up
-    //         setupCommandInputListener();
-    //         
-    //         // Focus and scroll with a slight delay to ensure DOM is updated
-    //         setTimeout(() => {
-    //             if (commandInputField) {
-    //                 commandInputField.focus();
-    //                 // Make sure it's not disabled
-    //                 commandInputField.disabled = false;
-    //             }
-    //             scrollToBottom(true); // Force immediate scroll
-    //         }, 100);
-    //     }
-    // });
 
     // Focus input when clicking inside terminal area (but DON'T force scroll here)
     terminalContent.addEventListener('click', (event) => {
@@ -471,5 +433,49 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('mode-toggle-checkbox').addEventListener('change', function() {
         toggleInteractiveMode();
     });
+
+    // Update the existing cursor click handler to handle the entire command line
+    const clickableCommandLine = document.getElementById('clickable-command-line');
+    if (clickableCommandLine) {
+        clickableCommandLine.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Only trigger if we're not already in interactive mode
+            if (!terminal.classList.contains('interactive')) {
+                console.log("Command line clicked, entering interactive mode");
+                
+                // Enter interactive mode
+                terminal.classList.add('interactive');
+                
+                // Update checkbox state
+                const checkbox = document.getElementById('mode-toggle-checkbox');
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+                
+                // Toggle button appearance if needed
+                const mobileToggleButton = document.getElementById('mobile-interactive-toggle');
+                if (mobileToggleButton) {
+                    mobileToggleButton.classList.add('active');
+                }
+                
+                // Ensure history container exists
+                ensureHistoryContainer();
+                
+                // Add welcome message
+                addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
+                
+                // Focus and scroll with a slight delay to ensure DOM is updated
+                setTimeout(() => {
+                    if (commandInputField) {
+                        commandInputField.focus();
+                        commandInputField.disabled = false;
+                    }
+                    scrollToBottom(true); // Force immediate scroll
+                }, 50);
+            }
+        });
+    }
 
 }); // End of DOMContentLoaded 
