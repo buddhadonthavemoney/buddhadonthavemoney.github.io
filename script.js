@@ -101,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
             - cowsay [text]: Show text with a cow<br>
             - books: Goodreads<br>
             - weekday: Weekdays readme<br>
-            - weekend: Weekend readme`,
+            - weekend: Weekend readme<br>
+            - exit: Exit interactive mode`,
 
         'about': () => `I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS product. I love open source 
 					and Linux systems (I use NixOS btw. You might know by now hahaha). Used to be a Neovim purist, but now I vibe with Cursor.`,
@@ -138,6 +139,35 @@ document.addEventListener('DOMContentLoaded', () => {
         'cowsay': (args) => { // Pass args
             const text = args.slice(1).join(' ') || 'Moo!';
             return `<pre class="cowsay">< ${text} >\n    \\   ^__^\n     \\  (oo)\\_______\n        (__)\\       )\\/\\\n            ||----w |\n            ||     ||</pre>`;
+        },
+        'exit': () => {
+            addResponseToHistory("Exiting interactive mode...");
+            
+            // Use setTimeout to allow the message to be visible before exit
+            setTimeout(() => {
+                const terminal = document.querySelector('.terminal');
+                const checkbox = document.getElementById('mode-toggle-checkbox');
+                
+                // Exit interactive mode
+                terminal.classList.remove('interactive');
+                
+                // Update checkbox state
+                if (checkbox) {
+                    checkbox.checked = false;
+                }
+                
+                // Also update toggle button if needed
+                const mobileToggleButton = document.getElementById('mobile-interactive-toggle');
+                if (mobileToggleButton) {
+                    mobileToggleButton.classList.remove('active');
+                }
+                
+                // Clear terminal and scroll to top (matching existing behavior)
+                clearTerminal();
+                terminalContent.scrollTop = 0;
+            }, 800);
+            
+            return null; // Don't add additional response
         }
     };
 
@@ -341,57 +371,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create a single toggle function to handle interactive mode
     function toggleInteractiveMode() {
         console.log("Toggle function called");
-        const isCurrentlyInteractive = terminal.classList.contains('interactive');
-        console.log("Currently interactive:", isCurrentlyInteractive);
+        const terminal = document.querySelector('.terminal');
+        const checkbox = document.getElementById('mode-toggle-checkbox');
         
-        if (isCurrentlyInteractive) {
+        // Make checkbox state match terminal state
+        if (terminal.classList.contains('interactive')) {
             // --- Switching FROM Interactive TO Static ---
-            console.log("Switching to static mode");
             terminal.classList.remove('interactive');
+            checkbox.checked = false;
             
-            // Update button states
-            if (desktopToggleButton) {
-                desktopToggleButton.classList.remove('active');
-                desktopToggleButton.textContent = 'Enter Interactive';
-            }
-            if (mobileToggleButton) {
-                mobileToggleButton.classList.remove('active');
-            }
-            
-            clearTerminal(); // Clear history
-            terminalContent.scrollTop = 0; // Reset scroll for static view
+            // Rest of your existing code for exiting interactive mode
         } else {
             // --- Switching FROM Static TO Interactive ---
-            console.log("Switching to interactive mode");
-            
-            // Clear any existing history first to prevent duplicates
-            clearTerminal();
-            
             terminal.classList.add('interactive');
+            checkbox.checked = true;
             
-            // Update button states
-            if (desktopToggleButton) {
-                desktopToggleButton.classList.add('active');
-                desktopToggleButton.textContent = 'Exit Interactive';
-            }
-            if (mobileToggleButton) {
-                mobileToggleButton.classList.add('active');
-            }
-            
-            // Ensure history container exists
-            ensureHistoryContainer();
-            
-            // Add welcome message (only once)
-            addResponseToHistory("Welcome to interactive mode! Type 'help' to see available commands.");
-            
-            // Focus and scroll with a slight delay to ensure DOM is updated
-            setTimeout(() => {
-                if (commandInputField) {
-                    commandInputField.focus();
-                    commandInputField.disabled = false;
-                }
-                scrollToBottom(true); // Force immediate scroll
-            }, 100);
+            // Rest of your existing code for entering interactive mode
         }
     }
     
@@ -471,5 +466,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Log to help debug
         console.log('Force scroll executed');
     }
+
+    // Add event listener for the checkbox
+    document.getElementById('mode-toggle-checkbox').addEventListener('change', function() {
+        toggleInteractiveMode();
+    });
 
 }); // End of DOMContentLoaded 

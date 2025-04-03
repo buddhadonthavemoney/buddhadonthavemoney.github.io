@@ -553,57 +553,88 @@ footer {
     max-height: calc(100% - 30px); /* Adjust based on your command input height */
 }
 
-/* Style the toggle button with red color scheme matching the close circle */
-.mobile-toggle {
+/* Replace the toggle switch styles with these simplified versions */
+
+/* Toggle Switch Container */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
     margin-left: auto;
-    cursor: pointer !important;
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    
-    /* Default state (non-interactive) */
-    background-color: rgba(74, 85, 104, 0.7);
-    color: #cbd5e0;
+    width: 40px;
+    height: 20px;
+    cursor: pointer;
 }
 
-/* Hover state */
-.mobile-toggle:hover {
-    background-color: rgba(74, 85, 104, 0.9);
-    color: white;
+/* Hide default checkbox */
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-/* Active state (interactive mode) - red color matching close button */
-.mobile-toggle.active {
-    background-color: #be6870; /* Red color similar to close button */
-    color: white;
+/* The slider */
+.toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: .3s;
+    border-radius: 34px;
 }
 
-/* Active + hover state */
-.mobile-toggle.active:hover {
-    background-color: rgb(203, 63, 63); /* Darker red on hover */
+/* The circle on the slider */
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #d8dee9;
+    transition: .3s;
+    border-radius: 50%;
 }
 
-/* Change the text based on state */
-.mobile-toggle::after {
-    content: "Interactive";
-    margin-left: 6px;
-    font-size: 12px;
+/* Active/checked state - subtle red color */
+.toggle-switch input:checked + .toggle-slider {
+    background-color: #bf616a; /* Subtle Nord red */
 }
 
-.mobile-toggle.active::after {
-    content: "Exit";
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(20px);
 }
 
-/* For very small screens, just show icon */
+/* Remove the glow effect for a cleaner look */
+.toggle-switch input:checked + .toggle-slider {
+    box-shadow: none;
+}
+
+/* Hover effect */
+.toggle-switch:hover .toggle-slider {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.toggle-switch input:checked:hover + .toggle-slider {
+    background-color: #d08770; /* Slightly lighter red/orange when hovered */
+}
+
+/* Responsive adjustments */
 @media (max-width: 480px) {
-    .mobile-toggle::after,
-    .mobile-toggle.active::after {
-        content: "";
-        margin-left: 0;
+    .toggle-switch {
+        width: 36px;
+        height: 18px;
+    }
+    
+    .toggle-slider:before {
+        height: 14px;
+        width: 14px;
+        left: 2px;
+        bottom: 2px;
+    }
+    
+    .toggle-switch input:checked + .toggle-slider:before {
+        transform: translateX(18px);
     }
 }
