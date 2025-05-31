@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             - books: Goodreads<br>
             - weekday: Weekdays readme<br>
             - weekend: Weekend readme<br>
+            - cv: Download CV<br>
             - exit: Exit interactive mode`,
 
         'about': () => `I'm a Backend/DevOps Engineer working for a startup building cloud-based multi-tenant SaaS product. I love open source 
@@ -139,6 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
         'cowsay': (args) => { // Pass args
             const text = args.slice(1).join(' ') || 'Moo!';
             return `<pre class="cowsay">< ${text} >\n    \\   ^__^\n     \\  (oo)\\_______\n        (__)\\       )\\/\\\n            ||----w |\n            ||     ||</pre>`;
+        },
+        'cv': () => {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = './assets/Buddha-Mani-Gautam.pdf';
+            downloadLink.download = 'Buddha-Mani-Gautam-CV.pdf';
+            downloadLink.click();
+            return 'Download started...';
         },
         'exit': () => {
             addResponseToHistory("Exiting interactive mode...");
