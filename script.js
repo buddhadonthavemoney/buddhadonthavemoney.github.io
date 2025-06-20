@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'cv': () => {
             const downloadLink = document.createElement('a');
-            downloadLink.href = './assets/Buddha-Mani-Gautam.pdf';
+            downloadLink.href = './assets/Buddha-Mani-Gautam-CV.pdf';
             downloadLink.download = 'Buddha-Mani-Gautam-CV.pdf';
             downloadLink.click();
             return 'Download started...';
