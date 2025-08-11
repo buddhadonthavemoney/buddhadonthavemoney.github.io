@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             - books: Goodreads<br>
             - weekday: Weekdays readme<br>
             - weekend: Weekend readme<br>
+            - travels: Travels readme<br>
             - cv: Download CV<br>
             - exit: Exit interactive mode`,
 
@@ -147,6 +148,34 @@ document.addEventListener('DOMContentLoaded', () => {
             downloadLink.download = 'Buddha-Mani-Gautam-CV.pdf';
             downloadLink.click();
             return 'Download started...';
+        },
+        'travels': () => {
+            return `
+            <h2>Treks</h2>
+            
+            Annapurna Circuit ✔️<br>
+            Langtang Valley ✔️<br>
+            Gosaikunda ✔️<br>
+            Panch Pokhari ✔️<br>
+            Ama Yangri ✔️<br>
+            Mardi Himal ✔️<br>
+        
+            <h2>Rides</h2>
+            Mustang Ride(Kaski, Baglung, Parbat, Myagdi, Mustang etc)✔️<br>
+            East Ride (Bhojpur, Tehrathum, Sankhuwasabha, Khotang, Panchthar, etc) ✔️<br>
+            Mid Western Ride (Chitwan, Tanahu, Kaski, Syangja etc) ✔️<br>
+<!--
+            <h2>Districts Visited(45)</h2>
+            Province 1: Jhapa, Illam, Panchthar, Tehrathum, Sankhuwasabha, Bhojpur, Dhankuta, Morang, Sunsari, Udayapur, Khotang<br>
+            Province 2: Saptari, Siraha, Dhanusa, Mahottari, Sarlahi, Rautahat, Bara, Parsa<br>
+            Province 3: Sindhuli, Dolakha, Sindhupalchowk, Kavrepalanchok, Kathmandu, Bhaktapur, Lalitpur, Rasuwa, Nuwakot, Dhading, Makwanpur, Chitawan<br>
+            Province 4: Gorkha, Lamjung, Tanahu, Nawalparasi, Syangja, Parbat, Baglung, Myagdi, Kaski, Manang, Mustang<br>
+            Palpa, Kapilbastu, Rupandehi<br>
+-->
+
+            <h2> International</h2>
+            India - Taj Mahal, Agra, Delhi ✔️<br>
+            `
         },
         'exit': () => {
             addResponseToHistory("Exiting interactive mode...");
